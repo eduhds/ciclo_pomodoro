@@ -1,16 +1,13 @@
-# ciclo_pomodoro
+# Ciclo Pomodoro
 
-A new Flutter project.
+Controle de tempo, foco e concentração com Pomodoro.
 
-## Getting Started
+## Preview Web
 
-This project is a starting point for a Flutter application.
+[https://eduhds.github.io/ciclo_pomodoro/](https://eduhds.github.io/ciclo_pomodoro/)
 
-A few resources to get you started if this is your first Flutter project:
+## Build Web
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter build web --base-href "/ciclo_pomodoro/"
+```
