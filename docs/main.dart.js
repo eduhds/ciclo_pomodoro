@@ -34155,12 +34155,12 @@ r=A.a8j(q,r,60)
 if(j.y)q=B.fB
 else q=j.w!==0?B.b.gG(B.cf):B.cr
 if(j.x){p=j.w
-o=""+p+"\xba intervalo: Descanse, tome um caf\xe9, uma \xe1gua..."
+o=""+p+"\xba intervalo 5min: Descanse, tome um caf\xe9, uma \xe1gua..."
 n=o
 o=p
 p=n}else{p=j.w
 if(p===0)o="Comece um ciclo Pomodoro!"
-else o=j.y?"Ciclo completo":""+p+"\xba tempo: Mantenha o foco!"
+else o=j.y?"Ciclo completo! Descanse 15min ou mais a cada ciclo.":""+p+"\xba tempo 25min: Mantenha o foco!"
 n=o
 o=p
 p=n}q=A.yW(i,new A.di(B.At,A.a9_(p,B.Jf),i),i,i,new A.eU(q,i,i,B.vg,i,i,B.aX),i,i,i)
