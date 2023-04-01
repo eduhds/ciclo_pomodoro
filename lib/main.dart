@@ -184,12 +184,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(5),
                 child: Text(
                   isShortBreak
-                      ? '$currentFocusº intervalo: Descanse, tome um café, uma água...'
+                      ? '$currentFocusº intervalo 5min: Descanse, tome um café, uma água...'
                       : currentFocus == 0
                           ? 'Comece um ciclo Pomodoro!'
                           : isCompleted
-                              ? 'Ciclo completo'
-                              : '$currentFocusº tempo: Mantenha o foco!',
+                              ? 'Ciclo completo! Descanse 15min ou mais a cada ciclo.'
+                              : '$currentFocusº tempo 25min: Mantenha o foco!',
                   style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w500),
                 ),
