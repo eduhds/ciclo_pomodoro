@@ -54,6 +54,10 @@ class _MyHomePageState extends State<MyHomePage> {
     await player.play(AssetSource('achive.mp3'));
   }
 
+  Future<void> _playCycleEnd() async {
+    await player.play(AssetSource('fantasia.mp3'));
+  }
+
   Future<void> _playFail() async {
     await player.play(AssetSource('fail.wav'));
   }
@@ -71,10 +75,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
       if (nextFocusTimeProgress == focusTime) {
         timer.cancel();
-        _playFocusEnd();
         if (currentFocus < focusCycle) {
+          _playFocusEnd();
           _startShortBreak();
         } else {
+          _playCycleEnd();
           setState(() {
             isCompleted = true;
           });
@@ -167,12 +172,35 @@ class _MyHomePageState extends State<MyHomePage> {
                         : Colors.grey,
               ),
             ),
-            Text(
-              '$currentFocus',
-              style: Theme.of(context).textTheme.headlineLarge,
+            Container(
+              decoration: BoxDecoration(
+                  color: isCompleted
+                      ? Colors.green
+                      : currentFocus != 0
+                          ? Colors.primaries.first
+                          : Colors.grey,
+                  borderRadius: const BorderRadius.all(Radius.circular(6))),
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Text(
+                  isShortBreak
+                      ? '$currentFocusº intervalo: Descanse, tome um café, uma água...'
+                      : currentFocus == 0
+                          ? 'Comece um ciclo Pomodoro!'
+                          : isCompleted
+                              ? 'Ciclo completo'
+                              : '$currentFocusº tempo: Mantenha o foco!',
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w500),
+                ),
+              ),
             ),
-            Text(
-              'Pomodoro${isShortBreak ? " (Intervalo)" : ""}',
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: Text(
+                '$currentFocus / $focusCycle',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(15),
