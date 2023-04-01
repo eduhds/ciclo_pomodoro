@@ -1,5 +1,5 @@
 name: ciclo_pomodoro
-description: A new Flutter project.
+description: Controle de tempo, foco e concentração com Pomodoro.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -62,6 +62,7 @@ flutter:
     - assets/fail.wav
     - assets/blip.mp3
     - assets/achive.mp3
+    - assets/fantasia.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
