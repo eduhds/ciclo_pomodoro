@@ -63,6 +63,7 @@ flutter:
     - assets/blip.mp3
     - assets/achive.mp3
     - assets/fantasia.mp3
+    - assets/tomato.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
