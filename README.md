@@ -11,3 +11,9 @@ Controle de tempo, foco e concentração com Pomodoro.
 ```bash
 flutter build web --base-href "/ciclo_pomodoro/"
 ```
+
+## Build Linux
+
+```bash
+flutter build linux --release
+```
