@@ -7,18 +7,21 @@ void main() {
   runApp(const MyApp());
 }
 
+const appName = 'Ciclo Pomodoro';
+const primaryColor = Color.fromRGBO(222, 0, 38, 1.0); // #de0026
+const primaryColor50 = Color.fromRGBO(222, 0, 38, 0.5); // #de0026
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Ciclo Pomodoro',
+      title: appName,
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-        primary: const Color.fromRGBO(222, 0, 38, 1.0), // #de0026
-      )),
-      home: const MyHomePage(title: 'Ciclo Pomodoro'),
+          colorScheme:
+              ColorScheme.fromSwatch().copyWith(primary: primaryColor)),
+      home: const MyHomePage(title: appName),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -34,17 +37,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final int focusTime = 25;
   final int focusCycle = 4;
   final int shortBreak = 5;
   final player = AudioPlayer();
 
+  int focusTime = 25;
   int currentFocus = 0;
   bool isShortBreak = false;
   bool isCompleted = false;
   Timer? cancellableTimer;
   List<double> focusTimeProgress = List.filled(4, 0);
   List<double> breakTimeProgress = List.filled(3, 0);
+
+  void _setFocusTime(int timeInMinutes) {
+    setState(() {
+      focusTime = timeInMinutes;
+    });
+    Navigator.pop(context);
+  }
 
   Future<void> _playFocusStart() async {
     await player.play(AssetSource('blip.mp3'));
@@ -147,7 +157,78 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Row(
+          children: [
+            Text(widget.title),
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(4)),
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Text(
+                    '$focusTime min',
+                    style: const TextStyle(
+                        fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(color: primaryColor),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/tomato.png',
+                    width: 75,
+                    height: 75,
+                  ),
+                  const Text(
+                    appName,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              title: const Text('15 minutos'),
+              selected: focusTime == 15,
+              textColor: primaryColor,
+              selectedColor: Colors.white,
+              selectedTileColor: primaryColor50,
+              onTap: currentFocus != 0 ? null : () => _setFocusTime(15),
+            ),
+            ListTile(
+              title: const Text('25 minutos (padrão)'),
+              selected: focusTime == 25,
+              textColor: primaryColor,
+              selectedColor: Colors.white,
+              selectedTileColor: primaryColor50,
+              onTap: currentFocus != 0 ? null : () => _setFocusTime(25),
+            ),
+            ListTile(
+              title: const Text('35 minutos'),
+              selected: focusTime == 35,
+              textColor: primaryColor,
+              selectedColor: Colors.white,
+              selectedTileColor: primaryColor50,
+              onTap: currentFocus != 0 ? null : () => _setFocusTime(35),
+            ),
+          ],
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -177,7 +258,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: isCompleted
                       ? Colors.green
                       : currentFocus != 0
-                          ? Colors.primaries.first
+                          ? primaryColor50
                           : Colors.grey,
                   borderRadius: const BorderRadius.all(Radius.circular(6))),
               child: Padding(
@@ -189,7 +270,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ? 'Comece um ciclo Pomodoro!'
                           : isCompleted
                               ? 'Ciclo completo! Descanse 15min ou mais a cada ciclo.'
-                              : '$currentFocusº tempo 25min: Mantenha o foco!',
+                              : '$currentFocusº tempo: Mantenha o foco!',
                   style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w500),
                 ),
