@@ -1,15 +1,16 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:ciclo_pomodoro/values/constants.dart';
+import 'package:ciclo_pomodoro/widgets/sound_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wakelock/wakelock.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
-const appName = 'Ciclo Pomodoro';
-const primaryColor = Color.fromRGBO(222, 0, 38, 1.0); // #de0026
-const primaryColor50 = Color.fromRGBO(222, 0, 38, 0.5); // #de0026
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -40,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final int focusCycle = 4;
   final int shortBreak = 5;
   final player = AudioPlayer();
+  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   int focusTime = 25;
   int currentFocus = 0;
@@ -65,14 +67,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _playCycleEnd() async {
-    await player.play(AssetSource('fantasia.mp3'));
+    final soundPreferences = await prefs;
+    final bool soundEnabled = soundPreferences.getBool(endSoundKey) ?? true;
+    if (soundEnabled) await player.play(AssetSource('fantasia.mp3'));
   }
 
   Future<void> _playFail() async {
-    await player.play(AssetSource('fail.wav'));
+    final soundPreferences = await prefs;
+    final bool soundEnabled = soundPreferences.getBool(stopSoundKey) ?? true;
+    if (soundEnabled) await player.play(AssetSource('fail.wav'));
   }
 
   void _startFocus() {
+    if (currentFocus == 0 && !Platform.isLinux) Wakelock.enable();
+
     setState(() {
       currentFocus++;
     });
@@ -93,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
           setState(() {
             isCompleted = true;
           });
+          if (!Platform.isLinux) Wakelock.disable();
         }
       }
 
@@ -227,6 +236,14 @@ class _MyHomePageState extends State<MyHomePage> {
               selectedTileColor: primaryColor50,
               onTap: currentFocus != 0 ? null : () => _setFocusTime(35),
             ),
+            const SoundPreference(
+              soundKey: stopSoundKey,
+              label: 'Som ao parar',
+            ),
+            const SoundPreference(
+              soundKey: endSoundKey,
+              label: 'Som ao concluir',
+            )
           ],
         ),
       ),
