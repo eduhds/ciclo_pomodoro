@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock/wakelock.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final int shortBreak = 5;
   final player = AudioPlayer();
   final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  final Uri sourceUri = Uri.parse(sourceUrl);
 
   int focusTime = 25;
   int currentFocus = 0;
@@ -187,6 +189,18 @@ class _MyHomePageState extends State<MyHomePage> {
             )
           ],
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: IconButton(
+                onPressed: () async {
+                  await launchUrl(sourceUri);
+                },
+                icon: const Icon(
+                  Icons.code,
+                )),
+          )
+        ],
       ),
       drawer: Drawer(
         child: ListView(
