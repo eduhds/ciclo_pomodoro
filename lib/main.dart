@@ -53,6 +53,14 @@ class _MyHomePageState extends State<MyHomePage> {
   List<double> focusTimeProgress = List.filled(4, 0);
   List<double> breakTimeProgress = List.filled(3, 0);
 
+  void _toggleWakeLock(bool value) {
+    try {
+      if (!Platform.isLinux) Wakelock.toggle(enable: value);
+    } catch (e) {
+      // Platform error
+    }
+  }
+
   void _setFocusTime(int timeInMinutes) {
     setState(() {
       focusTime = timeInMinutes;
@@ -81,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _startFocus() {
-    if (currentFocus == 0 && !Platform.isLinux) Wakelock.enable();
+    if (currentFocus == 0) _toggleWakeLock(true);
 
     setState(() {
       currentFocus++;
@@ -103,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
           setState(() {
             isCompleted = true;
           });
-          if (!Platform.isLinux) Wakelock.disable();
+          _toggleWakeLock(false);
         }
       }
 
