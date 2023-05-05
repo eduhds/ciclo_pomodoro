@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ciclo_pomodoro/values/constants.dart';
+import 'package:ciclo_pomodoro/widgets/break_time_indicator.dart';
+import 'package:ciclo_pomodoro/widgets/focus_time_indicator.dart';
 import 'package:ciclo_pomodoro/widgets/sound_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -54,10 +56,16 @@ class _MyHomePageState extends State<MyHomePage> {
   List<double> breakTimeProgress = List.filled(3, 0);
 
   void _toggleWakeLock(bool value) {
+    bool canWakeLock = true;
     try {
-      if (!Platform.isLinux) Wakelock.toggle(enable: value);
+      canWakeLock = !Platform.isLinux;
     } catch (e) {
       // Platform error
+    }
+    try {
+      if (canWakeLock) Wakelock.toggle(enable: value);
+    } catch (e) {
+      // Wakelock error
     }
   }
 
@@ -386,47 +394,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         )),
       ),
-    );
-  }
-}
-
-class FocusTimeIndicator extends StatelessWidget {
-  const FocusTimeIndicator({super.key, required this.progress});
-
-  final double progress;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-        child: LinearProgressIndicator(
-      value: progress,
-      backgroundColor: Colors.grey,
-      valueColor: AlwaysStoppedAnimation(Colors.primaries.first),
-    ));
-  }
-}
-
-class BreakTimeIndicator extends StatelessWidget {
-  const BreakTimeIndicator({super.key, required this.progress});
-
-  final double progress;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        CircularProgressIndicator(
-          strokeWidth: 2,
-          value: progress,
-          backgroundColor: Colors.grey,
-          valueColor: AlwaysStoppedAnimation(Colors.primaries.first),
-        ),
-        Icon(
-          progress >= 1 ? Icons.alarm_on : Icons.alarm,
-          color: progress >= 1 ? Colors.primaries.first : Colors.grey,
-        )
-      ],
     );
   }
 }
