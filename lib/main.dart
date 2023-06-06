@@ -300,26 +300,29 @@ class _MyHomePageState extends State<MyHomePage> {
                         : Colors.grey,
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                  color: isCompleted
-                      ? Colors.green
-                      : currentFocus != 0
-                          ? primaryColor50
-                          : Colors.grey,
-                  borderRadius: const BorderRadius.all(Radius.circular(6))),
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: Text(
-                  isShortBreak
-                      ? '$currentFocusº intervalo 5min: Descanse, tome um café, uma água...'
-                      : currentFocus == 0
-                          ? 'Comece um ciclo Pomodoro!'
-                          : isCompleted
-                              ? 'Ciclo completo! Descanse 15min ou mais a cada ciclo.'
-                              : '$currentFocusº tempo: Mantenha o foco!',
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w500),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: isCompleted
+                        ? Colors.green
+                        : currentFocus != 0
+                            ? primaryColor50
+                            : Colors.grey,
+                    borderRadius: const BorderRadius.all(Radius.circular(6))),
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Text(
+                    isShortBreak
+                        ? '$currentFocusº intervalo 5min: Descanse, tome um café, uma água...'
+                        : currentFocus == 0
+                            ? 'Comece um ciclo Pomodoro!'
+                            : isCompleted
+                                ? 'Ciclo completo! Descanse 15min ou mais a cada ciclo.'
+                                : '$currentFocusº tempo: Mantenha o foco!',
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w500),
+                  ),
                 ),
               ),
             ),
