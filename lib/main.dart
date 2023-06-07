@@ -227,10 +227,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/tomato.png',
-                    width: 75,
-                    height: 75,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Image.asset(
+                      'assets/tomato.png',
+                      width: 75,
+                      height: 75,
+                    ),
                   ),
                   const Text(
                     appName,
