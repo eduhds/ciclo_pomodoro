@@ -38,6 +38,7 @@ dependencies:
   wakelock: ^0.6.2
   shared_preferences: ^2.1.0
   url_launcher: ^6.1.10
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
