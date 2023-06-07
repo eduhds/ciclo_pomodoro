@@ -364,9 +364,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.only(left: 15, right: 7.5),
                   child: ElevatedButton(
                     onPressed: currentFocus == 0 ? _startFocus : null,
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [Text('Começar'), Icon(Icons.play_arrow)],
+                      children: [Text('Começar'), Icon(Icons.play_arrow)],
                     ),
                   ),
                 )),
@@ -377,9 +377,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: cancellableTimer != null && !isCompleted
                         ? _stopFocus
                         : null,
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [Text('Parar'), Icon(Icons.stop)],
+                      children: [Text('Parar'), Icon(Icons.stop)],
                     ),
                   ),
                 )),
