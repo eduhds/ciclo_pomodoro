@@ -10,6 +10,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:system_tray/system_tray.dart';
 
 void main() {
   runApp(const MyApp());
@@ -175,8 +176,44 @@ class _MyHomePageState extends State<MyHomePage> {
     return ((breakTimeProgress[index] * 100) / shortBreak) / 100;
   }
 
+  Future<void> initSystemTray() async {
+    final AppWindow appWindow = AppWindow();
+    final SystemTray systemTray = SystemTray();
+
+    await systemTray.initSystemTray(
+      title: appName,
+      iconPath: 'assets/tomato.png',
+    );
+
+    final Menu menu = Menu();
+    await menu.buildFrom([
+      MenuItemLabel(
+          label: 'Começar',
+          onClicked: (menuItem) => currentFocus == 0 ? _startFocus() : null),
+      MenuItemLabel(
+          label: 'Parar',
+          onClicked: (menuItem) =>
+              cancellableTimer != null && !isCompleted ? _stopFocus() : null),
+      MenuItemLabel(label: 'Show', onClicked: (menuItem) => appWindow.show()),
+      MenuItemLabel(label: 'Hide', onClicked: (menuItem) => appWindow.hide()),
+      MenuItemLabel(label: 'Exit', onClicked: (menuItem) => appWindow.close()),
+    ]);
+
+    await systemTray.setContextMenu(menu);
+
+    systemTray.registerSystemTrayEventHandler((eventName) {
+      debugPrint("eventName: $eventName");
+      if (eventName == kSystemTrayEventClick) {
+        systemTray.popUpContextMenu();
+      } else if (eventName == kSystemTrayEventRightClick) {
+        appWindow.show();
+      }
+    });
+  }
+
   @override
   void initState() {
+    if (Platform.isLinux) initSystemTray();
     super.initState();
   }
 
