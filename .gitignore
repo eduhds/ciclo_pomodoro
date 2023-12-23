@@ -44,6 +44,5 @@ app.*.map.json
 /android/app/release
 
 # Linux AppImage
-linux/CicloPomodoro.AppDir/usr/bin
-linux/CicloPomodoro.AppDir/usr/lib
+linux/AppDir
 *.AppImage
