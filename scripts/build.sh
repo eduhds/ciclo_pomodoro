@@ -5,6 +5,12 @@ app_name=ciclo_pomodoro
 if [ "$1" = "--web" ]; then
     # Build web
     flutter build web --base-href "/$app_name/"
+
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
+
+    cp -r build/web docs
 elif [ "$1" = "--linux" ]; then
     # Build Linux
     flutter build linux --release
